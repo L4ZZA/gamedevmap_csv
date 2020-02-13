@@ -1,5 +1,6 @@
 import sys
 import csv
+import unicodedata
 from selenium import webdriver
 from time import sleep
 
@@ -39,16 +40,16 @@ class bot():
             
     def parseHeader(self, headerRow):
         cells = headerRow.find_elements_by_tag_name('td')
-        formatted = [st.text for st in cells]
+        formatted = [st.text.encode('ascii','ignore') for st in cells]
         return formatted
             
     def parseCompany(self, companyRow):
         cells = companyRow.find_elements_by_tag_name('td')
-        formatted = [st.text for st in cells]
+        formatted = [st.text.encode('ascii','ignore') for st in cells]
         return formatted
 
     def parseTable(self):
-        table = b.driver.find_element_by_xpath('/html/body/table/tbody/tr/td/div[3]/table[3]')
+        table = self.driver.find_element_by_xpath('/html/body/table/tbody/tr/td/div[3]/table[3]')
         rows = table.find_elements_by_tag_name('tr')
         global header
         header = self.parseHeader(rows[3])
